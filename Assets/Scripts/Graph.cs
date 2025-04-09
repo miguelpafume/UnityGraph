@@ -4,11 +4,24 @@ public class Graph : MonoBehaviour {
     [SerializeField]
     Transform point_prefab;
 
+    [SerializeField, Range(10, 100)]
+    int resolution = 10;
+
+    
     private void Awake() {
-        for (int i = 0; i < 10; i++) {
+        Vector3 scale = Vector3.one * (2.0f / resolution);
+        Vector3 position = Vector3.zero;
+
+        for (int i = 0; i < resolution; i++) {
             Transform point = Instantiate(point_prefab);
-            point.localPosition = Vector3.right * ((i + 0.5f) / 5.0f -1.0f);
-            point.localScale = Vector3.one / 5.0f;
+
+            position.x = (i + 0.5f) * (2.0f / resolution) - 1.0f;
+            position.y = position.x * position.x * position.x;
+
+            point.localPosition = position;
+            point.localScale = scale;
+
+            point.SetParent(transform, false);
         }
     }
 }
